@@ -1,0 +1,49 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      SECRETHUB_CREDENTIAL: ${{ secrets.SECRETHUB_CREDENTIAL }}
+      SSHOOGR_GITHUB_USERNAME: sshoogr-release-bot
+      SSHOOGR_GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradlew') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlew-
+
+      - run: |
+          sudo echo "deb [trusted=yes] https://apt.secrethub.io stable main" > secrethub.sources.list
+          sudo mv secrethub.sources.list /etc/apt/sources.list.d/secrethub.sources.list
+          sudo apt-get update
+          sudo apt-get install -y secrethub-cli
+          mkdir -p $HOME/.gradle
+          secrethub read sshoogr/sshoogr/secring.gpg -o secring.gpg
+          truncate --size=-1 secring.gpg
+          secrethub inject -i .github/gradle.properties.tmpl > $HOME/.gradle/gradle.properties
+
+      - name: Build
+        run: |
+          chmod +x gradlew
+          ./gradlew groovydoc gitPublishPush
