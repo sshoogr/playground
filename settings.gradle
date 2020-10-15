@@ -34,7 +34,7 @@ apply plugin: 'org.kordamp.gradle.settings'
 apply plugin: 'org.kordamp.gradle.insight'
 apply plugin: 'org.kordamp.gradle.inline'
 
-rootProject.name = 'sshoogr-parent'
+rootProject.name = 'playground'
 
 projects {
     directories = ['plugins']
