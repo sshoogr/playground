@@ -157,3 +157,6 @@ println("bintrayApiKey ? ${project.findProperty('bintrayApiKey') != '**undefined
 println("sdkmanConsumerKey ? ${project.findProperty('sdkmanConsumerKey') != '**undefined**'}")
 println("sdkmanConsumerToken ? ${project.findProperty('sdkmanConsumerToken') != '**undefined**'}")
 println '==============================='
+
+System.setProperty('org.ajoberstar.grgit.auth.username', System.getenv('SSHOOGR_GITHUB_USERNAME'))
+System.setProperty('org.ajoberstar.grgit.auth.password', System.getenv('SSHOOGR_GITHUB_PASSWORD'))
