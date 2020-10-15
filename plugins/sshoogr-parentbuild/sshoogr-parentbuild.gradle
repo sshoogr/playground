@@ -34,7 +34,7 @@ gitPublish {
     branch = 'gh-pages'
     contents {
         from(groovydoc.outputs.files) {
-            into 'docs/groovydoc'
+            into './'
         }
     }
 }
