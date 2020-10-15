@@ -20,9 +20,6 @@ def resolveProperty(Project project, String envKey, String propKey, String defau
     !value? defaultValue : value
 }
 
-project.ext.'gradle.publish.key'    = resolveProperty(project, 'GRADLE_PUBLISH_KEY', 'gradle.publish.key', '**undefined**')
-project.ext.'gradle.publish.secret' = resolveProperty(project, 'GRADLE_PUBLISH_SECRET', 'gradle.publish.secret', '**undefined**')
-
 config {
     release = resolveProperty(project, 'SSHOOGR_RELEASE', 'release', 'false').toBoolean()
 
@@ -101,7 +98,7 @@ config {
     }
 
     bintray {
-        enabled       = false
+        enabled = false
     }
 
     publishing {
@@ -146,17 +143,3 @@ projects.subprojects {
         }
     }
 }
-
-println '==============================='
-println("gradle.publish.key ? ${project.findProperty('sgradle.publish.key') != '**undefined**'}")
-println("gradle.publish.secret ? ${project.findProperty('gradle.publish.secret') != '**undefined**'}")
-println("sonatypeUsername ? ${project.findProperty('sonatypeUsername') != '**undefined**'}")
-println("sonatypePassword ? ${project.findProperty('sonatypePassword') != '**undefined**'}")
-println("bintrayUsername ? ${project.findProperty('bintrayUsername') != '**undefined**'}")
-println("bintrayApiKey ? ${project.findProperty('bintrayApiKey') != '**undefined**'}")
-println("sdkmanConsumerKey ? ${project.findProperty('sdkmanConsumerKey') != '**undefined**'}")
-println("sdkmanConsumerToken ? ${project.findProperty('sdkmanConsumerToken') != '**undefined**'}")
-println '==============================='
-
-//System.setProperty('org.ajoberstar.grgit.auth.username', System.getenv('SSHOOGR_GITHUB_USERNAME'))
-//System.setProperty('org.ajoberstar.grgit.auth.password', System.getenv('SSHOOGR_GITHUB_PASSWORD'))
