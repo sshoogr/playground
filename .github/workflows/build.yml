@@ -9,8 +9,7 @@ jobs:
     env:
       CI: true
       SECRETHUB_CREDENTIAL: ${{ secrets.SECRETHUB_CREDENTIAL }}
-      SSHOOGR_GITHUB_USERNAME: sshoogr-release-bot
-      SSHOOGR_GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      SSHOOGR_GITHUB_USERNAME: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
 
